@@ -56,34 +56,34 @@ def test_liquid_handling_custom_values():
 def test_liquid_physical_properties():
     """Test physical properties interpolation in Liquid class"""
     liquid = Liquid(
-        VaporPressure20C=100,
-        VaporPressure25C=120,
-        Density20C=1.0,
-        Density25C=0.98,
-        SurfaceTension20C=72,
-        SurfaceTension25C=70,
-        Viscosity20C=1.0,
-        Viscosity25C=0.9
+        vapor_pressure_20c=100,
+        vapor_pressure_25c=120,
+        density_20c=1.0,
+        density_25c=0.98,
+        surface_tension_20c=72,
+        surface_tension_25c=70,
+        viscosity_20c=1.0,
+        viscosity_25c=0.9
     )
     
     # Test interpolation at lab temperature (22.5°C)
-    assert liquid.VaporPressure == 110  # Linear interpolation between 100 and 120
-    assert liquid.Density == 0.99  # Linear interpolation between 1.0 and 0.98
-    assert liquid.SurfaceTension == 71  # Linear interpolation between 72 and 70
-    assert liquid.Viscosity == 0.95  # Linear interpolation between 1.0 and 0.9
+    assert liquid.vapor_pressure == 110  # Linear interpolation between 100 and 120
+    assert liquid.density == 0.99  # Linear interpolation between 1.0 and 0.98
+    assert liquid.surface_tension == 71  # Linear interpolation between 72 and 70
+    assert liquid.viscosity == 0.95  # Linear interpolation between 1.0 and 0.9
 
 def test_liquid_handling_calculation():
     """Test automatic calculation of handling parameters based on physical properties"""
     # Test with water-like properties
     liquid = Liquid(
-        VaporPressure20C=20,  # Low vapor pressure
-        VaporPressure25C=25,
-        Density20C=1.0,      # Standard density
-        Density25C=0.99,
-        SurfaceTension20C=72, # High surface tension
-        SurfaceTension25C=70,
-        Viscosity20C=1.0,    # Low viscosity
-        Viscosity25C=0.9
+        vapor_pressure_20c=20,  # Low vapor pressure
+        vapor_pressure_25c=25,
+        density_20c=1.0,      # Standard density
+        density_25c=0.99,
+        surface_tension_20c=72, # High surface tension
+        surface_tension_25c=70,
+        viscosity_20c=1.0,    # Low viscosity
+        viscosity_25c=0.9
     )
     
     # Verify calculated handling parameters
@@ -106,14 +106,14 @@ def test_liquid_with_custom_handling():
     )
     
     liquid = Liquid(
-        VaporPressure20C=100,
-        VaporPressure25C=120,
-        Density20C=1.0,
-        Density25C=0.98,
-        SurfaceTension20C=72,
-        SurfaceTension25C=70,
-        Viscosity20C=1.0,
-        Viscosity25C=0.9,
+        vapor_pressure_20c=100,
+        vapor_pressure_25c=120,
+        density_20c=1.0,
+        density_25c=0.98,
+        surface_tension_20c=72,
+        surface_tension_25c=70,
+        viscosity_20c=1.0,
+        viscosity_25c=0.9,
         handling=custom_handling
     )
     
@@ -126,28 +126,28 @@ def test_liquid_edge_cases():
     """Test Liquid class with edge case physical properties"""
     # Test with very high viscosity
     liquid_high_viscosity = Liquid(
-        VaporPressure20C=100,
-        VaporPressure25C=120,
-        Density20C=1.0,
-        Density25C=0.98,
-        SurfaceTension20C=72,
-        SurfaceTension25C=70,
-        Viscosity20C=10.0,  # High viscosity
-        Viscosity25C=9.0
+        vapor_pressure_20c=100,
+        vapor_pressure_25c=120,
+        density_20c=1.0,
+        density_25c=0.98,
+        surface_tension_20c=72,
+        surface_tension_25c=70,
+        viscosity_20c=10.0,  # High viscosity
+        viscosity_25c=9.0
     )
     assert liquid_high_viscosity.handling.aspirate_speed < 0.7  # Should be slower
     assert liquid_high_viscosity.handling.dispense_speed < 0.5  # Should be slower
     
     # Test with very high vapor pressure
     liquid_high_vp = Liquid(
-        VaporPressure20C=2000,  # High vapor pressure
-        VaporPressure25C=2500,
-        Density20C=1.0,
-        Density25C=0.98,
-        SurfaceTension20C=72,
-        SurfaceTension25C=70,
-        Viscosity20C=1.0,
-        Viscosity25C=0.9
+        vapor_pressure_20c=2000,  # High vapor pressure
+        vapor_pressure_25c=2500,
+        density_20c=1.0,
+        density_25c=0.98,
+        surface_tension_20c=72,
+        surface_tension_25c=70,
+        viscosity_20c=1.0,
+        viscosity_25c=0.9
     )
     assert liquid_high_vp.handling.trailing_air_gap > 4.0  # Should have large air gap
     assert liquid_high_vp.handling.blowout > 8.0  # Should have large blowout 
