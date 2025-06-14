@@ -142,3 +142,47 @@ class Liquid:
         y0, y1 = values
         x = self._lab_temp
         return y0 + (y1 - y0) * (x - x0) / (x1 - x0) 
+
+    def to_json(self):
+        """
+        Convert the Liquid instance to a JSON-compatible dictionary.
+        
+        Returns:
+            dict: A dictionary containing all liquid properties and handling parameters
+        """
+        return {
+            'physical_properties': {
+                'vapor_pressure': {
+                    '20c': self._vp[0],
+                    '25c': self._vp[1],
+                    'current': self.vapor_pressure
+                },
+                'density': {
+                    '20c': self._density[0],
+                    '25c': self._density[1],
+                    'current': self.density
+                },
+                'surface_tension': {
+                    '20c': self._surface_tension[0],
+                    '25c': self._surface_tension[1],
+                    'current': self.surface_tension
+                },
+                'viscosity': {
+                    '20c': self._viscosity[0],
+                    '25c': self._viscosity[1],
+                    'current': self.viscosity
+                }
+            },
+            'lab_temperature': self._lab_temp,
+            'handling': {
+                'trailing_air_gap': self.handling.trailing_air_gap,
+                'blowout': self.handling.blowout,
+                'pre_wet': self.handling.pre_wet,
+                'aspirate_speed': self.handling.aspirate_speed,
+                'dispense_speed': self.handling.dispense_speed,
+                'aspirate_height': self.handling.aspirate_height,
+                'dispense_height': self.handling.dispense_height,
+                'scaling_factor': self.handling.scaling_factor,
+                'offset': self.handling.offset
+            }
+        } 

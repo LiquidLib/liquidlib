@@ -151,3 +151,51 @@ def test_liquid_edge_cases():
     )
     assert liquid_high_vp.handling.trailing_air_gap > 4.0  # Should have large air gap
     assert liquid_high_vp.handling.blowout > 8.0  # Should have large blowout 
+
+def test_liquid_to_json():
+    """Test the to_json() method of Liquid class"""
+    liquid = Liquid(
+        vapor_pressure_20c=100,
+        vapor_pressure_25c=120,
+        density_20c=1.0,
+        density_25c=0.98,
+        surface_tension_20c=72,
+        surface_tension_25c=70,
+        viscosity_20c=1.0,
+        viscosity_25c=0.9,
+        lab_temperature=22.5
+    )
+    
+    json_data = liquid.to_json()
+    
+    # Test structure and content
+    assert 'physical_properties' in json_data
+    assert 'lab_temperature' in json_data
+    assert 'handling' in json_data
+    
+    # Test physical properties
+    props = json_data['physical_properties']
+    assert 'vapor_pressure' in props
+    assert 'density' in props
+    assert 'surface_tension' in props
+    assert 'viscosity' in props
+    
+    # Test temperature points
+    assert props['vapor_pressure']['20c'] == 100
+    assert props['vapor_pressure']['25c'] == 120
+    assert props['vapor_pressure']['current'] == 110  # Interpolated value
+    
+    # Test handling parameters
+    handling = json_data['handling']
+    assert 'trailing_air_gap' in handling
+    assert 'blowout' in handling
+    assert 'pre_wet' in handling
+    assert 'aspirate_speed' in handling
+    assert 'dispense_speed' in handling
+    assert 'aspirate_height' in handling
+    assert 'dispense_height' in handling
+    assert 'scaling_factor' in handling
+    assert 'offset' in handling
+    
+    # Test lab temperature
+    assert json_data['lab_temperature'] == 22.5 
