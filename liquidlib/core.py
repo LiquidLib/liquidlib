@@ -40,17 +40,17 @@ class Liquid:
             surface_tension_25c: Surface tension at 25°C
             viscosity_20c: Viscosity at 20°C
             viscosity_25c: Viscosity at 25°C
-            lab_temperature: Laboratory temperature (default: 22.5°C)
+            lab_temperature: Laboratory temperature in Celsius (default: 22.5°C)
             handling: Optional LiquidHandling instance (default: None)
             
         Raises:
-            ValueError: If lab_temperature is outside the valid range (20-25°C)
+            ValueError: If lab_temperature is outside reasonable laboratory range (10-32.2°C, equivalent to 50-90°F)
         """
-        self._temp_points = [20, 25]
+        self._temp_points = [20, 25]  # Points for interpolation
         
-        # Validate temperature range
-        if not (self._temp_points[0] <= lab_temperature <= self._temp_points[1]):
-            raise ValueError(f"Temperature must be between {self._temp_points[0]}°C and {self._temp_points[1]}°C")
+        # Validate temperature is in reasonable laboratory range
+        if not (10 <= lab_temperature <= 32.2):
+            raise ValueError("Temperature must be between 10°C and 32.2°C (50-90°F)")
             
         self._lab_temp = lab_temperature
 

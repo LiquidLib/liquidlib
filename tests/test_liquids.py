@@ -107,7 +107,7 @@ def test_custom_handling():
 
 def test_invalid_temperature():
     with pytest.raises(ValueError):
-        Water(lab_temperature=15.0)  # Below minimum temperature point
+        Water(lab_temperature=9.0)  # Below minimum laboratory temperature (50°F)
     
     with pytest.raises(ValueError):
-        Water(lab_temperature=30.0)  # Above maximum temperature point 
+        Water(lab_temperature=33.0)  # Above maximum laboratory temperature (90°F) 
