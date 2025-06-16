@@ -25,9 +25,8 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Chemistry",
-    "Topic :: Scientific/Engineering :: Biology",
-    "Topic :: Scientific/Engineering :: Robotics",
-    "Topic :: Scientific/Engineering :: Lab Automation"
+    "Topic :: Scientific/Engineering :: Hydrology",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 keywords = ["liquid", "robotics", "laboratory", "lab automation"]
 dependencies = []
