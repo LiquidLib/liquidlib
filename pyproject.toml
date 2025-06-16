@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "liquidlib"
 version = "0.1.1"
 authors = [
-    { name = "Roman", email = "romangurovich@gmailcom" },
+    { name = "Roman Gurovich", email = "romangurovich@gmail.com" },
 ]
 description = "A library for handling liquid properties and pipetting parameters"
 readme = "README.md"
