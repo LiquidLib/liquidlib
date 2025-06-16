@@ -1,7 +1,8 @@
-from ..core import Liquid
+from typing import Optional
+from ..core import Liquid, LiquidHandling
 
 class Water(Liquid):
-    def __init__(self, lab_temperature=22.5, handling=None):
+    def __init__(self, lab_temperature: float = 22.5, handling: Optional[LiquidHandling] = None) -> None:
         """
         Initialize Water with its physical properties.
         
