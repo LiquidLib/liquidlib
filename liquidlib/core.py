@@ -1,4 +1,4 @@
-from typing import List, Dict, Union, Optional, Any
+from typing import List, Dict, Optional, Any
 
 class LiquidHandling:
     def __init__(self,
@@ -21,6 +21,25 @@ class LiquidHandling:
         self.dispense_height: float = dispense_height
         self.scaling_factor: float = scaling_factor
         self.offset: float = offset
+
+    def to_json(self) -> Dict[str, Any]:
+        """
+        Convert the LiquidHandling instance to a JSON-compatible dictionary.
+        
+        Returns:
+            dict: A dictionary containing all handling parameters
+        """
+        return {
+            'trailing_air_gap': self.trailing_air_gap,
+            'blowout': self.blowout,
+            'pre_wet': self.pre_wet,
+            'aspirate_speed': self.aspirate_speed,
+            'dispense_speed': self.dispense_speed,
+            'aspirate_height': self.aspirate_height,
+            'dispense_height': self.dispense_height,
+            'scaling_factor': self.scaling_factor,
+            'offset': self.offset
+        }
 
 class Liquid:
     def __init__(self,
@@ -180,15 +199,5 @@ class Liquid:
                 }
             },
             'lab_temperature': self._lab_temp,
-            'handling': {
-                'trailing_air_gap': self.handling.trailing_air_gap,
-                'blowout': self.handling.blowout,
-                'pre_wet': self.handling.pre_wet,
-                'aspirate_speed': self.handling.aspirate_speed,
-                'dispense_speed': self.handling.dispense_speed,
-                'aspirate_height': self.handling.aspirate_height,
-                'dispense_height': self.handling.dispense_height,
-                'scaling_factor': self.handling.scaling_factor,
-                'offset': self.handling.offset
-            }
+            'handling': self.handling.to_json()
         } 

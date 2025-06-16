@@ -79,6 +79,88 @@ liquid = Liquid(
 )
 ```
 
+### Using Pre-defined Liquid Classes
+
+The library comes with several pre-defined liquid classes for common laboratory liquids. These classes have carefully measured physical properties and are ready to use:
+
+```python
+from liquidlib.liquids import Water, Ethanol, Glycerin, DMSO
+
+# Create instances with default lab temperature (22.5°C)
+water = Water()
+ethanol = Ethanol()
+
+# Or specify a custom lab temperature
+glycerin = Glycerin(lab_temperature=25.0)
+dmso = DMSO(lab_temperature=23.5)
+
+# Access physical properties
+print(f"Water density at {water._lab_temp}°C: {water.density} g/mL")
+print(f"Ethanol viscosity at {ethanol._lab_temp}°C: {ethanol.viscosity} mPa·s")
+
+# Get optimized handling parameters
+print(f"Glycerin aspirate speed: {glycerin.handling.aspirate_speed}")
+print(f"DMSO dispense speed: {dmso.handling.dispense_speed}")
+
+# Export to JSON for storage or sharing
+water_json = water.to_json()
+```
+
+Available pre-defined liquids include:
+- `Water`: Standard laboratory water
+- `Ethanol`: 100% ethanol
+- `Glycerin`: Pure glycerin
+- `DMSO`: Dimethyl sulfoxide
+
+The community is encouraged to add more!
+
+Each pre-defined class comes with:
+- Accurate physical properties at multiple temperatures
+- Optimized handling parameters
+- Temperature-based property interpolation
+- JSON serialization support
+
+### Creating a Specialized Liquid Class
+
+You can create custom liquid classes by inheriting from the `Liquid` base class. This is useful for defining specific types of liquids with predefined properties or additional functionality.
+
+Here's an example of creating a specialized liquid class for a specific use case - Berkeley Hot Summer Glycerin, which needs to account for higher ambient temperatures:
+
+```python
+from liquidlib import Liquid
+
+class BerkeleyHotHotSummerGlycerin(Liquid):
+    def __init__(self, lab_temperature=35.0):  # Higher default temperature for hot summer
+        super().__init__(
+            # Physical properties at 20°C and 25°C
+            vapor_pressure_20c=0.0001,    # Very low vapor pressure
+            vapor_pressure_25c=0.0002,    # Still very low at higher temp
+            density_20c=1.261,           # High density
+            density_25c=1.258,           # Slightly lower at higher temp
+            surface_tension_20c=63.4,    # High surface tension
+            surface_tension_25c=62.5,    # Slightly lower at higher temp
+            viscosity_20c=1412,          # Very high viscosity
+            viscosity_25c=934,           # Significantly lower at higher temp
+            lab_temperature=lab_temperature
+        )
+
+# Create an instance for a hot Berkeley summer day
+glycerin = BerkeleyHotHotSummerGlycerin(lab_temperature=38.0)
+
+# The liquid handling parameters automatically adapt to the physical properties
+print(f"Current lab temperature: {glycerin._lab_temp}°C")
+print(f"Interpolated viscosity: {glycerin.viscosity} mPa·s")
+print(f"Adapted aspirate speed: {glycerin.handling.aspirate_speed}")
+print(f"Adapted dispense speed: {glycerin.handling.dispense_speed}")
+print(f"Adapted trailing air gap: {glycerin.handling.trailing_air_gap}")
+```
+
+The key advantage of this approach is that the `LiquidHandling` parameters automatically adapt to the physical properties of the liquid. For example:
+- Higher viscosity leads to slower aspirate/dispense speeds
+- Higher surface tension affects the trailing air gap
+- Temperature changes automatically update all interpolated properties
+- The handling parameters are optimized for the specific liquid's characteristics
+
 ## Development
 
 To set up the development environment:
