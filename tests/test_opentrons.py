@@ -31,4 +31,4 @@ def test_opentrons_liquid_handler_docstrings():
     assert dispense_method.__doc__ is not None
     
     handle_method = OpentronsLiquidHandler.handle_liquid
-    assert handle_method.__doc__ is not None 
+    assert handle_method.__doc__ is not None

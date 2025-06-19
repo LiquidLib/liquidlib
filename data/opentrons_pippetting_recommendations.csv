@@ -1,0 +1,19 @@
+Pipette,Liquid,Aspiration Rate (µL/s),Aspiration Delay (s),Aspiration Withdrawal Rate (mm/s),Dispense Rate (µL/s),Dispense Delay (s),Blowout Rate (µL/s),Touch tip
+P20,Glycerol 10%,6.804,2,5,6.804,2,0.5,No
+P20,Glycerol 90%,5.292,7,2,5.292,7,0.5,No
+P20,Glycerol 99%,3.78,10,2,3.78,10,0.5,No
+P20,PEG 8000 50% w/v,6.048,7,5,6.048,7,0.5,No
+P20,Sanitizer 62% Alcohol,1.0,2,20,3.78,2,0.5,Yes
+P20,Tween 20 100%,5.292,7,2,3.024,7,0.5,Yes
+P20,Engine oil 100%,6.048,7,1,6.048,7,0.5,Yes
+P300,Glycerol 10%,83.25,2,5,83.25,2,10.0,No
+P300,Glycerol 90%,64.75,8,1,64.75,8,4.0,No
+P300,Glycerol 99%,55.5,10,1,55.5,10,4.0,No
+P300,PEG 8000 50% w/v,74.0,6,4,74.0,74,4.0,No
+P300,Sanitizer 62% Alcohol,92.5,2,20,92.5,2,4.0,Yes
+P300,Tween 20 100%,13.9,10,1,13.9,11,7.0,Yes
+P300,Engine oil 100%,74.0,3,2,46.25,7,10.0,Yes
+P1000,Glycerol 10%,247.05,2,30,247.05,2,75.0,No
+P1000,Glycerol 50%,247.05,3,30,247.05,3,75.0,No
+P1000,Glycerol 90%,164.7,10,3,109.8,10,15.0,No
+P1000,Glycerol 99%,41.175,20,4,19.215,20,5.0,No
