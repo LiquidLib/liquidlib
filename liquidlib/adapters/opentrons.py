@@ -35,6 +35,14 @@ LiquidNameInput = Union[str, LiquidName]
 class OpentronsLiquidHandler():
     def __init__(self, protocol: protocol_api.ProtocolContext, pipette,
                  parameters_file: str = 'data/opentrons_pippetting_recommendations.csv'):
+        """
+        Initialize the OpentronsLiquidHandler.
+
+        Parameters:
+            protocol (protocol_api.ProtocolContext): The Opentrons protocol context.
+            pipette: The Opentrons pipette instrument instance.
+            parameters_file (str): Path to the CSV file containing optimized pipetting parameters.
+        """
         self.protocol = protocol
         self.pipette = pipette
         self.default_blow_out_rate = pipette.flow_rate.blow_out

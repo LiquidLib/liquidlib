@@ -1,4 +1,4 @@
-from liquidlib.opentrons import OpentronsLiquidHandler
+from liquidlib.adapters.opentrons import OpentronsLiquidHandler
 from opentrons import protocol_api
 
 def get_values(*names):

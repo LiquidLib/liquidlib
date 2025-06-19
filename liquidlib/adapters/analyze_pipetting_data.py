@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import re
-from liquidlib.prediction import predict_property
+from liquidlib.adapters.prediction import predict_property
 
 # Helper to sanitize filenames
 SAFE_FILENAME = lambda s: re.sub(r'[^A-Za-z0-9_.-]', '_', str(s))

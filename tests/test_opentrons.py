@@ -2,7 +2,7 @@
 Tests for the Opentrons adapter module.
 """
 import pytest
-from liquidlib.opentrons import OpentronsLiquidHandler
+from liquidlib.adapters.opentrons import OpentronsLiquidHandler
 
 
 def test_opentrons_liquid_handler_import():

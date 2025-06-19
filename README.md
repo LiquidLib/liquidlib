@@ -128,7 +128,7 @@ liquidlib includes an adapter for Opentrons pipetting robots, making it easy to 
 #### Basic Opentrons Usage
 
 ```python
-from liquidlib.opentrons import OpentronsLiquidHandler
+from liquidlib.adapters.opentrons import OpentronsLiquidHandler
 from liquidlib import Liquid, LiquidHandling
 
 # In your Opentrons protocol

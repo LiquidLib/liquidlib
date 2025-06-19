@@ -5,7 +5,7 @@ This example shows how to integrate the OpentronsLiquidHandler with the liquidli
 framework for handling viscous liquids in Opentrons protocols.
 """
 
-from liquidlib.opentrons import OpentronsLiquidHandler
+from liquidlib.adapters.opentrons import OpentronsLiquidHandler
 from liquidlib import Liquid, LiquidHandling
 
 # Example Opentrons protocol structure
