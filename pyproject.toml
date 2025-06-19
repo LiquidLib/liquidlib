@@ -29,7 +29,10 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Bio-Informatics",
 ]
 keywords = ["liquid", "robotics", "laboratory", "lab automation"]
-dependencies = []
+dependencies = [
+    "pandas>=1.3.0",
+    "opentrons>=6.0.0",
+]
 
 [project.optional-dependencies]
 dev = [

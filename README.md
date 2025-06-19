@@ -12,6 +12,7 @@ A Python library for modeling and interpolating physical properties of liquids a
 - Automatic calculation of liquid handling parameters based on physical properties
 - JSON serialization support
 - Comprehensive test coverage
+- **Opentrons robot integration** for automated liquid handling
 
 ## Installation
 
@@ -119,6 +120,83 @@ Each pre-defined class comes with:
 - Optimized handling parameters
 - Temperature-based property interpolation
 - JSON serialization support
+
+### Opentrons Robot Integration
+
+liquidlib includes an adapter for Opentrons pipetting robots, making it easy to handle viscous liquids with optimized parameters. The `OpentronsLiquidHandler` class provides specialized methods for aspirating and dispensing viscous liquids with robot-specific optimizations.
+
+#### Basic Opentrons Usage
+
+```python
+from liquidlib.opentrons import OpentronsLiquidHandler
+from liquidlib import Liquid, LiquidHandling
+
+# In your Opentrons protocol
+def run(protocol: protocol_api.ProtocolContext):
+    # Setup your labware and instruments
+    tiprack = protocol.load_labware('opentrons_96_tiprack_300ul', '4')
+    p300 = protocol.load_instrument('p300_single_gen2', 'left', tip_racks=[tiprack])
+    tube_rack = protocol.load_labware('opentrons_24_tuberack_eppendorf_1.5ml_safelock_snapcap', '5')
+    plate = protocol.load_labware('corning_96_wellplate_360ul_flat', '6')
+    
+    # Initialize the liquid handler with optimized parameters
+    handler = OpentronsLiquidHandler(protocol, p300, 'optimized_pipette_parameters.csv')
+    
+    # Create a liquid object using liquidlib
+    glycerol = Liquid(
+        vapor_pressure_20c=0.0001,
+        vapor_pressure_25c=0.0002,
+        density_20c=1.26,
+        density_25c=1.25,
+        surface_tension_20c=63.0,
+        surface_tension_25c=62.0,
+        viscosity_20c=945.0,
+        viscosity_25c=800.0,
+        lab_temperature=22.5
+    )
+    
+    # Method 1: Use predefined parameters from CSV file
+    handler.handle_liquid("Glycerol 90%", 75, tube_rack['A1'], plate['E5'])
+    
+    # Method 2: Use liquidlib-calculated parameters
+    aspiration_rate = glycerol.handling.aspirate_speed * 300  # Convert to µL/s
+    dispense_rate = glycerol.handling.dispense_speed * 300    # Convert to µL/s
+    
+    handler.aspirate_viscous(
+        75, tube_rack['A1'], 
+        liquid_name="Glycerol 90%",
+        aspiration_rate=aspiration_rate
+    )
+    
+    handler.dispense_viscous(
+        75, plate['E5'],
+        liquid_name="Glycerol 90%", 
+        dispense_rate=dispense_rate
+    )
+```
+
+#### Key Features
+
+- **Optimized Parameters**: Uses CSV-based lookup tables for proven liquid/pipette combinations
+- **Fallback Support**: Falls back to liquidlib-calculated parameters if CSV data isn't available
+- **Flexible Override**: Allows explicit parameter overrides for fine-tuning
+- **Temperature Awareness**: Integrates with liquidlib's temperature-dependent property interpolation
+- **Robot-Specific**: Optimized for Opentrons pipetting robots and their specific capabilities
+
+#### Parameter CSV Format
+
+The `OpentronsLiquidHandler` expects a CSV file with the following columns:
+- `Pipette`: Pipette model (e.g., "P300")
+- `Liquid`: Liquid name (e.g., "Glycerol 90%")
+- `Aspiration Rate (µL/s)`: Optimal aspiration rate
+- `Aspiration Delay (s)`: Delay after aspiration
+- `Aspiration Withdrawal Rate (mm/s)`: Tip withdrawal speed
+- `Dispense Rate (µL/s)`: Optimal dispense rate
+- `Dispense Delay (s)`: Delay after dispensing
+- `Blowout Rate (µL/s)`: Blowout rate
+- `Touch tip`: Whether to touch tip (Yes/No)
+
+See the `examples/opentrons_example.py` file for a complete working example.
 
 ### Creating a Specialized Liquid Class
 
