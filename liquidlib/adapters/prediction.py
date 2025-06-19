@@ -25,7 +25,7 @@ def _load_data(csv_path: str = 'data/opentrons_pippetting_recommendations.csv') 
     
     # Ensure the csv_path is relative to the package root if using the default
     if csv_path == 'data/opentrons_pippetting_recommendations.csv':
-        csv_path = os.path.join(os.path.dirname(__file__), '..', csv_path)
+        csv_path = os.path.join(os.path.dirname(__file__), '..', '..', csv_path)
         csv_path = os.path.normpath(csv_path)
     _df = pd.read_csv(csv_path)
     
@@ -80,6 +80,20 @@ def predict_property(base_liquid: str, pipette: str, percent: float, property_na
     
     x = sub['Percent']
     y = sub[property_name]
+
+    # Clamp percent to data range and find nearest actual data point
+    min_percent = x.min()
+    max_percent = x.max()
+    if percent < min_percent:
+        print(f"[WARNING] Requested percent {percent} is below data range ({min_percent}-{max_percent}). Using value at {min_percent}%.")
+        # Find the actual data point at min_percent
+        nearest_idx = (x == min_percent).idxmax()
+        return y.iloc[nearest_idx]
+    elif percent > max_percent:
+        print(f"[WARNING] Requested percent {percent} is above data range ({min_percent}-{max_percent}). Using value at {max_percent}%.")
+        # Find the actual data point at max_percent
+        nearest_idx = (x == max_percent).idxmax()
+        return y.iloc[nearest_idx]
 
     # Debug print to trace prediction inputs and outputs
     print(f"[DEBUG] predict_property: base_liquid={base_liquid}, pipette={pipette}, percent={percent}, property_name={property_name}")

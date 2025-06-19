@@ -67,15 +67,20 @@ def run(protocol: protocol_api.ProtocolContext):
 
     # Add 400 uL of Process Buffer to Required Wells in Deep Well Block
     protocol.comment(f'Adding 400 uL of process buffer sequentially to {total_samples} wells...')
-    pip = pip_left if pip_left.max_volume > 20 else pip_right
+    if pip_left.max_volume > 20:
+        pip = pip_left
+        handler = handler_left
+    else:
+        pip = pip_right
+        handler = handler_right
     pip.pick_up_tip()
     if pipette_types == 'single':
         for well in deep_samples:
             # Use handler to aspirate and dispense buffer (simulate viscous liquid, e.g., Glycerol 90%)
-            handler_left.handle_liquid("Glycerol 40%", 400, buffer, well)
+            handler.handle_liquid("Glycerol 40%", 400, buffer, well)
     else:
         for well, buf in zip(deep_samples, buffer_wells):
-            handler_left.handle_liquid("Glycerol 40%", 400, buf, well)
+            handler.handle_liquid("Glycerol 40%", 400, buf, well)
     pip.drop_tip()
 
     protocol.pause('''Pausing protocol for further specimen processing and addition of 15uL of master mix (Glycerol 40%) to the PCR plate. Click Resume when ready...''')

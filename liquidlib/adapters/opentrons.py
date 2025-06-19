@@ -49,7 +49,7 @@ class OpentronsLiquidHandler():
 
         # Ensure the parameters_file path is relative to the package root
         if parameters_file == 'data/opentrons_pippetting_recommendations.csv':
-            parameters_file = os.path.join(os.path.dirname(__file__), '..', parameters_file)
+            parameters_file = os.path.join(os.path.dirname(__file__), '..', '..', parameters_file)
             parameters_file = os.path.normpath(parameters_file)
         try:
             self.optimized_params = pd.read_csv(parameters_file)
